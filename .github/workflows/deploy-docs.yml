@@ -6,6 +6,7 @@ on:
     branches:
       # make sure this is the branch you are using
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
