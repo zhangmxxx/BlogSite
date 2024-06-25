@@ -43,9 +43,4 @@ jobs:
           # This is the branch where the docs are deployed to
           branch: gh-pages
           folder: docs/.vuepress/dist
-
-      - name: Deploy page
-        id: deployment
-        uses: actions/deploy-pages@v4
-
 # you need to deploy the docs to the page later.
