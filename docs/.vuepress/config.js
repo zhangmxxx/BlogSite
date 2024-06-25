@@ -6,8 +6,8 @@ import { viteBundler } from '@vuepress/bundler-vite'
 export default defineUserConfig({
   lang: 'en-US',
 
-  title: 'VuePress',
-  description: 'My first VuePress Site',
+  title: 'Site MallocaMore',
+  description: 'malloc more',
   base: '/BlogSite/',
 
   theme: defaultTheme({
