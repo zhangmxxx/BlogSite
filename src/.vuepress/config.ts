@@ -6,6 +6,7 @@ export default defineUserConfig({
   base: "/BlogSite/",
 
   lang: "en-US",
+  title: "Site MallocSimenons",
   description: "Pantanal of MallocSimenons",
 
   theme,
