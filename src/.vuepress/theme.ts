@@ -116,6 +116,11 @@ export default hopeTheme({
     // This features is enabled for demo, only preserve if you need it
     markdownTab: true,
 
+    markdownHint: {
+      // 启用 GFM 警告
+      alert: true,
+    },
+
     // These features are enabled for demo, only preserve features you need here
     mdEnhance: {
       align: true,
@@ -156,7 +161,7 @@ export default hopeTheme({
       // flowchart: true,
 
       // gfm requires mathjax-full to provide tex support
-      // gfm: true,
+      gfm: true,
 
       // install mermaid before enabling it
       // mermaid: true,
