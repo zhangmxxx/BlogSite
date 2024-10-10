@@ -37,7 +37,7 @@ excerpt: <p>在800MB的内存限制下运行 txt2img 模型，生成 2K 分辨�
 - **unet** ：用于预测 noise；
 - **image decoder** ： encoder的反过程。
 
-在整个图片生成过程中，第1、2、4个组件只需要运行一次，且他们最多只会占用 1GB 的显存。而剩下的内存都被 unet 所占用。因此，任务的关键就在于如何减小 unet 的内存开销。[todo](/todo.html)
+在整个图片生成过程中，第1、2、4个组件只需要运行一次，且他们最多只会占用 1GB 的显存。而剩下的内存都被 unet 所占用。因此，任务的关键就在于如何减小 unet 的内存开销。[todo](/src/todo.html)
 
 ## Module-level Optimization
 
