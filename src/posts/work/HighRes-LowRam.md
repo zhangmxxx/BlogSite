@@ -30,14 +30,14 @@ excerpt: <p>在800MB的内存限制下运行 txt2img 模型，生成 2K 分辨�
 
 ## Stable Diffusion Optimization
 
-在着手压缩内存之前，不妨先看看单一 Stable Diffusion 模型的内存占用情况。以生成单张 $512 \times 512$ 的照片为例，使用 CompVis/stable-diffusion-v1-4 模型的 float32 版本，发现显存占用在 6GB 左右。那么，这些内存究竟用在哪里了呢？（更详细的分析参见 [Stretch iPhone to its Limit, a 2GiB Model that can Draw Everything in Your Pocket](https://liuliu.me/eyes/stretch-iphone-to-its-limit-a-2gib-model-that-can-draw-everything-in-your-pocket/)）首先来看看 Stable Diffusion 的各组件：
+在着手压缩内存之前，不妨先看看单一 Stable Diffusion 模型的内存占用情况。以生成单张 $512 \times 512$ 的照片为例，使用 CompVis/stable-diffusion-v1-4 模型的 float32 版本，发现显存占用在 6GB 左右。那么，这些内存究竟用在哪里了呢？（更详细的内存分析参见 [Stretch iPhone to its Limit, a 2GiB Model that can Draw Everything in Your Pocket](https://liuliu.me/eyes/stretch-iphone-to-its-limit-a-2gib-model-that-can-draw-everything-in-your-pocket/)）首先来看看 Stable Diffusion 的各组件（详细结构可见 [Stable Diffusion 组件拆分](/todo.md)）：
 
 - **text encoder** ： 用来生成文本特征向量，随后用于 cross-attention 模块中指导 denoise 过程；
 - **image encoder** ： 用于将图片映射到 latent space，以减小 denoise 过程的开销；
 - **unet** ：用于预测 noise；
 - **image decoder** ： encoder的反过程。
 
-在整个图片生成过程中，第1、2、4个组件只需要运行一次，且他们最多只会占用 1GB 的显存。而剩下的内存都被 unet 所占用。因此，任务的关键就在于如何减小 unet 的内存开销。[todo](/src/todo.html)
+在整个图片生成过程中，第1、2、4个组件只需要运行一次，且他们最多只会占用 1GB 的显存。而剩下的内存都被 unet 所占用。因此，任务的关键就在于如何减小 unet 的内存开销。
 
 ## Module-level Optimization
 
