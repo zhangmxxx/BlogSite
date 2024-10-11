@@ -1,5 +1,6 @@
 ---
-icon: todo
+icon: check-circle-o
+article: false
 ---
 # Content Not Found
 ## 你到达了知识的荒原

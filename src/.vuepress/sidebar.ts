@@ -1,6 +1,12 @@
 import { sidebar } from "vuepress-theme-hope";
 
+import { work } from "./sidebar/work.js"
+import { devinit } from "./sidebar/devinit.js"
+
 export default sidebar({
+  "/work/": work,
+  "/devinit/": devinit,
+  // fall through to default
   "/": [
     "",
     {
@@ -10,12 +16,9 @@ export default sidebar({
       collapsible: true,
       children: "structure",
     },
-    {
-      text: "Articles",
-      icon: "book",
-      prefix: "posts/",
-      children: "structure",
-    },
-    "intro"
+    "work/",
+    "devinit/",
+    "/blog.md",
+    "/intro.md"
   ]
 });

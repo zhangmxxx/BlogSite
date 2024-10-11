@@ -8,7 +8,7 @@ export default hopeTheme({
 
   author: {
     name: "MallocSimenons",
-    url: "https://zhangmxxx.github.io/BlogSite/",
+    url: "https://zhangmxxx.github.io/BlogSite/intro.html",
   },
 
   iconAssets: "fontawesome-with-brands",

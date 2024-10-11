@@ -1,5 +1,5 @@
 ---
-title: Features demo
+title: CV
 index: false
 icon: laptop-code
 category:

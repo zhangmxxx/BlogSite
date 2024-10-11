@@ -6,6 +6,7 @@ category:
   - Guide
 tag:
   - Layout
+article: false
 ---
 
 The layout contains:
