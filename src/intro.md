@@ -1,8 +1,9 @@
 ---
 icon: circle-info
-bgImage: /product-detail04.jpg
+bgImage: /SequoiaLight.png
+bgImageDark: /SequoiaDark.png
 portfolio: true
-home: false
+home: true
 title: About
 article: false
 titles:
