@@ -4,9 +4,14 @@ export const work = arraySidebar([
   "",
   {
     text: "CV",
-    icon: "eye",
     link: "cv/",
     prefix: "cv/",
     children: "structure",
-  }
+  },
+  {
+    text: "ICS",
+    link: "ics/",
+    prefix: "ics/",
+    children: "structure",
+  },
 ]);

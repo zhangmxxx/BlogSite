@@ -32,6 +32,7 @@ export default hopeTheme({
   encrypt: {
     config: {
       "/demo/encrypt.html": ["1234"],
+      "/work/ics/inline-asm.html": ["114514"]
     },
   },
 
