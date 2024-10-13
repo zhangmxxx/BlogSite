@@ -1,18 +1,28 @@
-// place your custom styles here
-body {
-    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
-    line-height: 1.6;
-}
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    position: relative;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-weight: bold;
-    line-height: 1.4;
-    cursor: text;
+  font-family: "Afacad Flux";
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  line-height: 1.4;
+  cursor: text;
+}
+body{
+  font-family: "Source Sans Pro";
+  font-weight: 400;
+}
+code,
+kbd,
+samp,
+pre {
+  font-family: IBM Plex Mono, monospace;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-size: 1em;
+  font-weight: 400;
 }

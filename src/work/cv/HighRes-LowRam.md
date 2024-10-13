@@ -60,8 +60,9 @@ Mixture of Diffusers 将高分辨率图片的生成过程分解成若干独立�
 
 > [!note]
 >
-> - [ ] 以 low-res image 作为 guide image 作用于整个 canvas 时，会出现占用 22 GB VRAM的异常；
+> - [x] 以 low-res image 作为 guide image 作用于整个 canvas 时，会出现占用 22 GB VRAM的异常；（`cpu_vae` is ignored during encoding and decoding guide image. Fix by change source code.）
 > - [ ] SDv1.4在python3.10环境下, dtype=torch.float16, 没法实现内存开销的减小.
+> - [ ] 正常会稳定占用1716M的CPU-RAM和6000M的GPU-RAM
 
 
 

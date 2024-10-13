@@ -1,7 +1,7 @@
 ---
 icon: edit
 excerpt: <p> 记录了该 BlogSite 的设计逻辑。同时，也会记录一些较为 tricky 的问题。 </p>
-article: false
+sticky: true
 ---
 # Blog Design
 Sidebar、Navbar等组件的交互逻辑借鉴了 Mister-Hope 的[设计思路](https://github.com/Mister-Hope/Mister-Hope.github.io)。同时，也会记录一些较为 tricky 的问题。
@@ -30,3 +30,8 @@ Navbar 是全局不变的。因此，相较于 Sidebar，其核心功能应该�
 ## Tricks or Bugs
 因为目前对于前端的知识了解甚少，对于遇到的问题很难判断到底是 bug 还是使用不规范引发的错误。
 - 在段落的前一行，某些格式无法正常渲染。已知 buggy 的有：站内文章的链接。
+- 在 `pallette.scss` 中修改字体并不能起效，目前通过在 `index.scss` 手动覆盖对应的字体样式（如body、h1等），来实现字体修改。另外，如果不能自由调整 `font-weight`，要注意 stylesheet 的 url 是否包含了所有的字体粗细。例如如下的 url：
+  ```scss
+  https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap
+  ```
+  则可用的 font-weight 为 100、200...700
