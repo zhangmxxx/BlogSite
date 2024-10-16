@@ -1,11 +1,11 @@
 ---
 icon: edit
-excerpt: <p> 记录了该 BlogSite 的设计逻辑。同时，也会记录一些较为 tricky 的问题。 </p>
+excerpt: <p> 当前博客网站的设计思路。 </p>
 sticky: true
 ---
 # Blog Design
-Sidebar、Navbar等组件的交互逻辑借鉴了 Mister-Hope 的[设计思路](https://github.com/Mister-Hope/Mister-Hope.github.io)。同时，也会记录一些较为 tricky 的问题。
-> 其实这里已经用到了一些 tricks。
+Vuepress 以及为博客网站的配置提供了很多选项，基于此，可以设计出各式各样的博客样式。本篇记录了当前博客网站的设计思路，包括Sidebar、Navbar、MainPage、font、文本格式等方面。同时，还记录了一些bugs/tricks。
+> 其实这里已经用到了一些 tricks：你可以尝试选中这段内容，并思考为什么要添加这段文字。
 ## Sidebar
 对于一个目录 /path，有两种逻辑来显示它：
 - 对于 /path 下的每个子目录，生成一个表项。该表项只包含链接，不可展开。路由至该子目录后，重新绘制 Sidebar，显示子目录内容。
@@ -24,13 +24,22 @@ Navbar 是全局不变的。因此，相较于 Sidebar，其核心功能应该�
 - 对于目前的网站体量，在逻辑上似乎不足以划分为独立的模块。以 Mister-Hope 的 Navbar 为例，其表项分别为：代码笔记、随笔、软件教程。相比之下，Work、DevInit 的交叉程度较大。但在路由逻辑上，必须这样设计。
 
 ## Articles on MainPage
-在文章的 frontmatter 中设置 `article: false` 可以将文章从主页隐去。[Details](https://theme-hope.vuejs.press/zh/config/frontmatter/info.html)
+在文章的 frontmatter 中设置 article: false 可以将文章从主页隐去[tutorial](https://theme-hope.vuejs.press/zh/config/frontmatter/info.html)。
 
-可以在 MainPage 上只显示每个目录的 `Readme.md`，将 ArticleList 作为一个平铺化的索引列表。但是个人认为这样与结构化的索引工具 Navbar 和 Sidebar 功能重复了，毕竟人类还是习惯于基于文件系统的树状结构进行检索。因此，在 MainPage 上只按照时间顺序放置文章，如果有额外的优先级，考虑使用 star 属性。
+可以在 MainPage 上只显示每个目录的 intro page，将 ArticleList 作为一个平铺化的索引列表。但是个人认为这样与结构化的索引工具 Navbar 和 Sidebar 功能重复了，毕竟人类还是习惯于基于文件系统的树状结构进行检索。因此，在 MainPage 上只按照时间顺序放置文章，如果有额外的优先级，考虑使用 star 属性。
+
+## Format Usage
+
+- 在涉及到换行时，行内代码会保持为一个整体，并不支持拆分。这会导致在排版时，可能会出现过于稀疏的行。因此，blog内容会尽量减少行内代码格式的使用：对于文件名、目录名、函数名等（即使会需要添加转义符），使用纯文本格式；只有对命令行语句，以及会被 vuepress 自动生成链接的文件名，采用行内代码。
+- 正文中的所有标点符号，均适用中文标点。
+- 英文内容前后均添加空格。
+
 ## Tricks or Bugs
+
 因为目前对于前端的知识了解甚少，对于遇到的问题很难判断到底是 bug 还是使用不规范引发的错误。
-- 在段落的前一行，某些格式无法正常渲染。已知 buggy 的有：站内文章的链接。
-- 在 `pallette.scss` 中修改字体并不能起效，目前通过在 `index.scss` 手动覆盖对应的字体样式（如body、h1等），来实现字体修改。另外，如果不能自由调整 `font-weight`，要注意 stylesheet 的 url 是否包含了所有的字体粗细。例如如下的 url：
+- 在段落的前一行，某些格式无法正常渲染。已知 buggy 的有：站内文章的链接。（在下一标题之前插入至少3个空行，有概率消除这一bug）。
+
+- 在 pallette.scss 中修改字体并不能起效，目前通过在 index.scss 手动覆盖对应的字体样式（如body、h1等），来实现字体修改。另外，如果不能自由调整 font-weight，要注意 stylesheet 的 url 是否包含了所有的字体粗细。例如如下的 url：
   ```scss
   https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap
   ```

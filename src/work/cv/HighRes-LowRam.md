@@ -16,9 +16,7 @@ excerpt: <p>在800MB的内存限制下运行 txt2img 模型，生成 2K 分辨�
 
 ## Task Description
 
-任务目标非常直接：在800MB的内存限制下运行 txt2img 模型，生成 2K 分辨率的图片。
-
-结合当前工作，大致可以将思路总结为两类：优化 Stable Diffusion 模型本身；优化使用 Stable Diffusion 模型的方式。
+任务目标非常直接：在800MB的内存限制下运行 txt2img 模型，生成 2K 分辨率的图片。结合当前工作，大致可以将思路总结为两类：优化 Stable Diffusion 模型本身；优化使用 Stable Diffusion 模型的方式。
 
 > 如何监视内存？
 >
@@ -45,6 +43,8 @@ excerpt: <p>在800MB的内存限制下运行 txt2img 模型，生成 2K 分辨�
 
 ### 1. Mixture of Diffusers
 
+#### 1.1 Method
+
 - <HopeIcon icon="archive"/> [Paper](https://arxiv.org/abs/2302.02412)
 - <i class="fa-brands fa-github"></i> [Github Repo](https://github.com/albarji/mixture-of-diffusers)
 
@@ -58,10 +58,38 @@ Mixture of Diffusers 将高分辨率图片的生成过程分解成若干独立�
 - 优化 **SD-unit**；
 - 优化 image decoder，尝试将 decode 的过程也划分为若干独立的子过程；
 
+#### 1.2 Implement
+
+原仓库在 float16 兼容性、使用 guide image 等方面存在一定问题，因此在实现过程中，[fork](https://github.com/zhangmxxx/mixture-of-diffusers) 了一份，以记录自己的修改。
+
+##### kwargs in from_pretrained()
+
+在使用 StableDiffusionCanvasPipeline.from_pretrained() 加载模型时，会首先调用基类对应的 DiffusionPipeline.from_pretrained()，加载好各 sub model 后，作为 init_kwargs 传入 \_\_init\_\_()。打印 init_kwargs.keys() 如下：
+
+```
+dict_keys(['unet', 'text_encoder', 'scheduler', 'feature_extractor', 'tokenizer', 'vae', 'safety_checker'])
+```
+
+此处存在一个问题：只传递了各组件作为参数，无法将 torch_dtype 等自定义参数传递给 \_\_init\_\_()。为了不对库函数进行修改，只能在 \_\_init\_\_() 中手动设置参数。
+
+##### Guide image OOM
+
+以low-res image作为guide image作用于整个canvas时，会出现占用22 GB VRAM的异常。原因是在ImageRegion decode过程中，原demo忽略了cpu_vae参数，导致始终使用VRAM进行decode。修改详情参见[issue](https://github.com/albarji/mixture-of-diffusers/issues/17)。
+
+> 观察CPU RAM的占用情况可以发现，在decode过程中，CPU RAM的占用峰值为20.7GB，CRAM和VRAM的占用量并不相等。因此，为了满足任务要求，需要统一移动到CPU上进行内存占用统计。
+
+##### Switch between 16 and 32
+
+由于上述的种种原因，并不能通过 from_pretrained(torch_dtype=torch.float\<width\>)来实现整个pipeline位宽的切换。需要修改的内容较为分散，故记录如下：
+
+- from_pretrained()：调整sub models的类型；
+- Image2ImageRegion()：调整guide image的类型；
+- \_\_init()\_\_ 的默认torch_dtype：用于在StableDiffusionCanvasPipeline中初始化latents等；
+- scheduler.step() 后强制类型转换：将scheduler输出的32位latents（并不受scheduler位宽控制）强制转换为16位。
+
 > [!note]
 >
-> - [x] 以 low-res image 作为 guide image 作用于整个 canvas 时，会出现占用 22 GB VRAM的异常；（`cpu_vae` is ignored during encoding and decoding guide image. Fix by change source code.）
-> - [ ] SDv1.4在python3.10环境下, dtype=torch.float16, 没法实现内存开销的减小.
+> - [ ] 即使移动到 cpu 上，guide image 的 decode 过程仍然会占用很多内存。
 > - [ ] 正常会稳定占用1716M的CPU-RAM和6000M的GPU-RAM
 
 
