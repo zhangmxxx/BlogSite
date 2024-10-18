@@ -68,8 +68,8 @@ int asm_popcnt(uint64_t x) {
   return (int)s;
 }
 ```
-## Implementing `setjmp()` and `longjmp()`
-在正常实现 `setjmp()` 和 `longjmp()` 的情况下，程序首先会进入 `setjmp()` 中设置快照，返回后，进入 `r == 0` 分支，在 `longjmp()` 中跳转到 `setjmp()` 返回前的状态，随后进入另一分支，最终返回。
+## Implementing setjmp() and longjmp()
+在正常实现 setjmp() 和 longjmp() 的情况下，程序首先会进入 setjmp() 中设置快照，返回后，进入 r == 0 分支，在 longjmp() 中跳转到 setjmp() 返回前的状态，随后进入另一分支，最终返回。
 ```c
 int main() {
   asm_jmp_buf buf;
@@ -83,8 +83,8 @@ int main() {
 }
 ```
 ### 1. Before Implementing
-原始状态下，实现直接调用了库函数。但是，即便在这种情况下，程序仍然无法正常运行：在进入了一次 `r == 0` 分支后，程序直接退出了。
-其实原因很简单：库函数 `longjmp()` 返回的是 `setjmp()` 执行后的位置。（这里暂时还不需要区分是 `setjmp()` return 之前还是之后）此时，控制流位于 `asm_setjmp()` 返回之前的状态。但是，此时的**函数栈帧仍然是 `asm_longjmp()` 的函数栈帧**，而函数返回地址是存放在栈帧上的，因此，控制流实际上返回到了 line 5 之后的位置，随即 `main()` 执行完毕。
+原始状态下，实现直接调用了库函数。但是，即便在这种情况下，程序仍然无法正常运行：在进入了一次 r == 0 分支后，程序直接退出了。
+其实原因很简单：库函数 longjmp() 返回的是 setjmp() 执行后的位置。（这里暂时还不需要区分是 setjmp() return 之前还是之后）此时，控制流位于 asm_setjmp() 返回之前的状态。但是，此时的**函数栈帧仍然是 asm_longjmp() 的函数栈帧**，而函数返回地址是存放在栈帧上的，因此，控制流实际上返回到了 line 5 之后的位置，随即 main() 执行完毕。
 ```c
 /* in asm.h */
 #include <setjmp.h>
@@ -98,11 +98,11 @@ void asm_longjmp(asm_jmp_buf env, int val) {
 }
 ```
 ### 2. Which Regs to Save
-翻看标准库，发现其保存了8个寄存器，那么，这8个寄存器究竟是哪些呢？ `setjmp()` 需要保存的寄存器，实际上就是 callee saved registers：这些寄存器是 `setjmp()` 需要保存的，而当 `setjmp()` 交出控制权的时候，自然也就需要将这些寄存器值保留下来。其余的则反之。
+翻看标准库，发现其保存了8个寄存器，那么，这8个寄存器究竟是哪些呢？ setjmp() 需要保存的寄存器，实际上就是 callee saved registers：这些寄存器是 setjmp() 需要保存的，而当 setjmp() 交出控制权的时候，自然也就需要将这些寄存器值保留下来。其余的则反之。
 ### 3. Before or After Return
-另一问题是，`longjmp()` 返回时，究竟应该返回到 `setjmp()` 内部执行流的末尾，还是 `setjmp()` caller 的执行流中？有两个需求，使得这个问题有了确定的答案：
+另一问题是，longjmp() 返回时，究竟应该返回到 setjmp() 内部执行流的末尾，还是 setjmp() caller 的执行流中？有两个需求，使得这个问题有了确定的答案：
 #### Different Return Value
-`setjmp()` 需要支持不同的返回值。如果采取前者，那么 `setjmp()` 的汇编代码应当大致如下：
+setjmp() 需要支持不同的返回值。如果采取前者，那么 setjmp() 的汇编代码应当大致如下：
 ```asm
 /* save regs to buf */
 mov $0x0, %%eax /* if real call, set 0 as return value */
@@ -111,9 +111,9 @@ ret
 ```
 但此时，函数的栈帧会发生问题（why？）
 #### Return PC
-前文提到，返回地址是存放在栈上的。因此，如果采取前者，回到 `setjmp()` 返回前，那么一定会返回到 `longjmp()` 的栈帧上存放的返回地址。
+前文提到，返回地址是存放在栈上的。因此，如果采取前者，回到 setjmp() 返回前，那么一定会返回到 longjmp() 的栈帧上存放的返回地址。
 
-综上所述，必须返回到 `setjmp()` caller 的执行流。于是乎，我们保存的 rip 实际上是 `setjmp()` 的返回地址，rsp 和 rbp 是 `setjmp()` 调用者的对应值。但，**x64 的函数调用 convention 与 IA-32 有巨大差别** [Overview](https://www.cnblogs.com/wingsummer/p/16078629.html)，在调试时，一度被始终为 0x1 的 rbp 搞得怀疑人生。简单来说，x64 不再采用 rbp 记录栈底，而是只使用 rsp。函数调用过程中，旧 rsp 值被存放在 `8(%rsp)`，而返回地址，则存放在 `(%rsp)`。最终得到的实现如下：
+综上所述，必须返回到 setjmp() caller 的执行流。于是乎，我们保存的 rip 实际上是 setjmp() 的返回地址，rsp 和 rbp 是 setjmp() 调用者的对应值。但，**x64 的函数调用 convention 与 IA-32 有巨大差别** [Overview](https://www.cnblogs.com/wingsummer/p/16078629.html)，在调试时，一度被始终为 0x1 的 rbp 搞得怀疑人生。简单来说，x64 不再采用 rbp 记录栈底，而是只使用 rsp。函数调用过程中，旧 rsp 值被存放在 8(%rsp)，而返回地址，则存放在 (%rsp)。最终得到的实现如下：
 ```c
 /* in asm.h */
 typedef struct {
@@ -166,4 +166,4 @@ void asm_longjmp(asm_jmp_buf env, int val) {
 ```
 
 > 悬而未决的问题:
-> 可以看到, 上面的定义是将 `asm_jmp_buf` 定义成了一个数组类型, 从而使得 `asm_jmp_buf buf;` 定义的变量为指针类型. 但如果将其定义为结构体, 使得 buf 作为局部变量存放在栈上, 理论上也可行, 但实际上, 会在准备 `asm_longjmp()` 的参数 env 时, 将栈上的 env 变量覆盖掉. 这是否是 UB ?
+> 可以看到, 上面的定义是将 asm_jmp_buf 定义成了一个数组类型, 从而使得 asm_jmp_buf buf; 定义的变量为指针类型. 但如果将其定义为结构体, 使得 buf 作为局部变量存放在栈上, 理论上也可行, 但实际上, 会在准备 asm_longjmp() 的参数 env 时, 将栈上的 env 变量覆盖掉. 这是否是 UB ?

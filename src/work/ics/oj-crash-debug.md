@@ -12,7 +12,7 @@ star: true
 sticky: true
 excerpt: <p> 分析评测服务器的 crash 信息，进行压力测试，并给出对策。 </p>
 ---
-# 服务器崩溃调试
+# 评测服务器崩溃调试
 封面为此时的心理状态 :disappointed:。​
 搭建的评测服务器在实际运行过程中屡次出现IO利用过高，系统卡死的情况。由于模拟并发的困难，于是按照网路上搜寻到的方法，进行了若干次无法验证的尝试，包括但不限于：减少 gunicorn worker 数量、改用 gevent 模式。不幸的是，服务器仍于2024年10月15日17时15分再次崩溃。痛定思痛，决定对产生问题的根源进行彻查。
 
@@ -232,9 +232,9 @@ seq 1 8 | parallel -n0 --jobs 8 curl http://175.24.131.173/oj/ICS2024/PA1/seJAot
 find ./ -name "daemon[1-9].py" | parallel python {}
 ```
 
-其中，因为 `daemon.py` 通过 fcntl.flock(fp.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB) 设置了并发锁，所以使用了 `daemon.py` 的两份 copy；{ } 表示将输出完整传递给命令。然而，发现该进程始终处于 write、read 均为 0 的状态，但能够完成评测，疑似 iotop 无法对其进行分析。无论如何，2 并发评测并不会引起服务器崩溃。
+其中，因为 daemon\.py 通过 fcntl.flock(fp.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB) 设置了并发锁，所以使用了 daemon\.py 的两份 copy；{ } 表示将输出完整传递给命令。然而，发现该进程始终处于 write、read 均为 0 的状态，但能够完成评测，疑似 iotop 无法对其进行分析。无论如何，2 并发评测并不会引起服务器崩溃。
 
-同时，也手动模拟了提交评测 + 文件上传的并发：单独运行 `daemon.py` ，同时启动 32 并发的 11.8MB 文件上传，并未引发崩溃。
+同时，也手动模拟了提交评测 + 文件上传的并发：单独运行 daemon\.py ，同时启动 32 并发的 11.8MB 文件上传，并未引发崩溃。
 
 ### Concluison
 
