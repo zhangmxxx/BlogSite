@@ -1,5 +1,5 @@
 ---
-cover: /assets/images/server_debug/cover.png
+cover: /assets/images/work/ics/oj-server-devlog/cover.png
 icon: pen-to-square
 date: 2024-10-18
 category:
