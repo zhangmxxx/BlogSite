@@ -1,5 +1,5 @@
 ---
-cover: /assets/images/SD_Opt/cover.png
+cover: /assets/images/work/cv/highres-lowram/cover.png
 icon: pen-to-square
 date: 2024-10-09
 category:

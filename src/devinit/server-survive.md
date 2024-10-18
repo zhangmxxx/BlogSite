@@ -1,5 +1,5 @@
 ---
-cover: /assets/images/server/cover.png
+cover: /assets/images/devinit/server-survive/cover.png
 icon: pen-to-square
 date: 2024-10-09
 category:
