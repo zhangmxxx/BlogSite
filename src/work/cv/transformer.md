@@ -1,5 +1,19 @@
+---
+cover: /assets/images/work/cv/highres-lowram/cover.png
+icon: pen-to-square
+date: 2024-10-27
+category:
+  - work
+tag:
+  - Computer Vision
+  - attention
+  - transformer
+star: true
+sticky: true
+excerpt: <p>论文阅读笔记</p>
+---
 # Attention is All You Need
-- <HopeIcon icon="archive"/> [Paper](https://arxiv.org/abs/1706.03762)
+- <i class="fa-solid fa-newspaper"></i> [Paper](https://arxiv.org/abs/1706.03762)
 - <i class="fa-solid fa-file-powerpoint"></i> [Referenced Slides](https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/self_v7.pdf)
 ## Features
 
@@ -9,7 +23,8 @@
 
 ## Self-Attention
 ### Scaled Dot-Product Attention
-![Scaled Dot-Product Attention](/assets/images/work/cv/transformer/scaled-attention.png =150x)
+
+![Scaled Dot-Product Attention](/assets/images/work/cv/transformer/scaled-attention.png#mdimg =150x)
 
 > In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix $Q$. The keys and values are also packed together into matrices $K$ and $V$ . We compute the matrix of outputs as:
 > $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
@@ -17,7 +32,7 @@
 #### single input
 首先从单个 input 的计算过程看起，这里假设 $a^i \in \mathbb{R}^{d \times 1}$ , $W^q, W^k\in \mathbb{R}^{d_k\times d}$， $W^v \in \mathbb{R}^{d_v\times d}$。
 
-![Computation process for single input (scale, mask and softmax are omitted)](/assets/images/work/cv/transformer/single-input.png =600x)
+![Computation process for single input (scale, mask and softmax are omitted)](/assets/images/work/cv/transformer/single-input.png#mdimg =600x)
 
 $q, k \in \mathbb{R}^{d_k\times 1}$，$v \in \mathbb{R}^{d_v\times 1}$ 都是由 input 经过矩阵运算得到：
 $$
@@ -45,7 +60,7 @@ $$
 $$
 然后，使用 $Q, K, V$ 计算 $O$。
 
-![Element view of matrix computation](/assets/images/work/cv/transformer/matrix.png =600x)
+![Element view of matrix computation](/assets/images/work/cv/transformer/matrix.png#mdimg =600x)
 
 形式化表示如下：
 $$
@@ -58,7 +73,7 @@ $$
 > 整个模型的可学参数为 $W^q$、$W^k$、$W^v$。
 
 ### Multi-Head Attention
-![Multi-head Attention](/assets/images/work/cv/transformer/multihead.png =200x)
+![Multi-head Attention](/assets/images/work/cv/transformer/multihead.png#mdimg =200x)
 > Instead of performing a single attention function with $d_{model}$-dimensional keys, values and queries, we found it beneficial to linearly project the queries, keys and values h times with different, learned linear projections to $d_k$, $d_k$ and $d_v$ dimensions, respectively.
 
 直观上理解，就是将 $Q, K, V$ 拆成了若干副本，计算后再进行拼接。这样可以用多个 attention 模块去**捕获到 input 之间不同的相关性**。具体计算过程如下：

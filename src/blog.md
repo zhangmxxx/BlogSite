@@ -31,11 +31,22 @@ Navbar 是全局不变的。因此，相较于 Sidebar，其核心功能应该�
 对于 src/path/to/markdown.md，用到的所有图片均存放在 .vuepress/public/assets/path/to/markdown/ 目录下。
 
 ## Format Usage
-
 - 在涉及到换行时，行内代码会保持为一个整体，并不支持拆分。这会导致在排版时，可能会出现过于稀疏的行。因此，blog内容会尽量减少行内代码格式的使用：对于文件名、目录名、函数名等（即使会需要添加转义符），使用纯文本格式；只有对命令行语句，以及会被 vuepress 自动生成链接的文件名，采用行内代码。
 - 正文中的所有标点符号，均适用中文标点。
 - 英文内容前后均添加空格。
 
+## Image Style
+对于 markdown 内的插图，额外添加阴影和圆角样式。由于在主题文档中未找到相关内容，所以通过在 index.scss 中覆盖相关样式实现。注意到这里并不能直接对 img 进行样式覆盖，因为这会影响到主页的图标。虽然主页图标支持样式自定义，但无法从已有的样式中删除一部分。因此，需要在插入图片时，附带额外的类别信息，以在 css 文件中区分。可以通过在 URL fragment 中插入类别信息（[Explanation](https://dzone.com/articles/how-to-style-images-with-markdown)）：
+```markdown
+![Alt](image.jpg#class-name) 
+```
+并且在 index.scss 对属于 class-name 类别的 image 进行单独样式设置：
+```scss
+img[src*="#class-name"]{
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); 
+}
+```
 ## Tricks or Bugs
 
 因为目前对于前端的知识了解甚少，对于遇到的问题很难判断到底是 bug 还是使用不规范引发的错误。

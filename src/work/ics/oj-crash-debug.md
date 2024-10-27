@@ -170,7 +170,7 @@ seq 8 | parallel -n0 --jobs 8 curl -F "token=DIBYHMnd" -F "course=ICS2024" -F "m
 
 这里使用了一个 11.8 MB 的文件作为测试，考虑到12MB 的上传限制，理应超过了现阶段的绝大部分提交。后续还测试了 32 并发，结果类似。在 8 并发下查看 iotop 可以发现，write rate 已经达到了一个相当大的值，但仍然可以正常处理。
 
-![iotop info](/assets/images/work/ics/oj-crash-debug/parallel-iotop.png)
+![iotop info](/assets/images/work/ics/oj-crash-debug/parallel-iotop.png#mdimg)
 
 尝试使用超出大小限制的文件，也能够得到预期的 reject：
 
