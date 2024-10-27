@@ -3,7 +3,7 @@ cover: /assets/images/work/ics/inline-asm/cover.png
 icon: pen-to-square
 date: 2024-10-12
 category:
-  - work
+  - ics 2nd round
 tag:
   - assembly
   - C

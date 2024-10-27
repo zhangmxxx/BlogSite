@@ -27,6 +27,9 @@ Navbar 是全局不变的。因此，相较于 Sidebar，其核心功能应该�
 
 可以在 MainPage 上只显示每个目录的 intro page，将 ArticleList 作为一个平铺化的索引列表。但是个人认为这样与结构化的索引工具 Navbar 和 Sidebar 功能重复了，毕竟人类还是习惯于基于文件系统的树状结构进行检索。因此，在 MainPage 上只按照时间顺序放置文章，如果有额外的优先级，考虑使用 star 属性。
 
+## Static URL
+对于 src/path/to/markdown.md，用到的所有图片均存放在 .vuepress/public/assets/path/to/markdown/ 目录下。
+
 ## Format Usage
 
 - 在涉及到换行时，行内代码会保持为一个整体，并不支持拆分。这会导致在排版时，可能会出现过于稀疏的行。因此，blog内容会尽量减少行内代码格式的使用：对于文件名、目录名、函数名等（即使会需要添加转义符），使用纯文本格式；只有对命令行语句，以及会被 vuepress 自动生成链接的文件名，采用行内代码。

@@ -4,6 +4,7 @@ icon: pen-to-square
 date: 2024-10-18
 category:
   - server config
+  - ics ta work
 tag:
   - web-backend
   - qcloud
