@@ -1,6 +1,5 @@
 ---
 cover: /assets/images/work/cv/highres-lowram/cover.png
-icon: pen-to-square
 date: 2024-10-09
 category:
   - work
@@ -45,7 +44,7 @@ excerpt: <p>在800MB的内存限制下运行 txt2img 模型，生成 2K 分辨�
 
 #### 1.1 Method
 
-- <HopeIcon icon="archive"/> [Paper](https://arxiv.org/abs/2302.02412)
+- <i class="fa-solid fa-newspaper"></i> [Paper](https://arxiv.org/abs/2302.02412)
 - <i class="fa-brands fa-github"></i> [Github Repo](https://github.com/albarji/mixture-of-diffusers)
 
 Mixture of Diffusers 将高分辨率图片的生成过程分解成若干独立的子区域图片生成过程，这些子区域可以用同一个 Stable Diffusion Module，基于不同的 prompt 生成。因此，该方法将空间复杂度降低到了单一 Stable Diffusion 模型的空间复杂度。以下是基于 Mixture of Diffusers 的 txt2img pipeline（记使用到的单一 Stable Diffusion 模型为 **SD-unit**）：
@@ -94,5 +93,5 @@ dict_keys(['unet', 'text_encoder', 'scheduler', 'feature_extractor', 'tokenizer'
 
 
 
-### 2. LinFusion
+### 2. DC-AE
 
