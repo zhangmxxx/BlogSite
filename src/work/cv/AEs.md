@@ -32,7 +32,7 @@ excerpt: <p>AE、VAE、VQ-VAE的原理</p>
 
 ## VAE
 
-> 该部分内容（尤其是数学推导）主要来自：[张振虎的博客](https://www.zhangzhenhu.com/aigc/%E5%8F%98%E5%88%86%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8.html) 。
+> 该部分内容（尤其是数学推导）主要来自：[张振虎的博客](https://www.zhangzhenhu.com/aigc/%E5%8F%98%E5%88%86%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8.html) ，其中的内容与[Understanding Diffusion Models: A Unified Perspective](https://arxiv.org/abs/2208.11970) 的推导类似。
 
 与 AE 的总体架构类似，二者的关键区别在于，AE 编码器输出的 embedding 只是一个张量，而 VAE 则是一个随机变量，该随机变量的均值和方差由编码器给出；同样的，确定 embedding，VAE 解码器输出的也是一个随机变量，其均值由解码器给出，方差为 $I$。记输入为 $x$，输出同样也是 $x$，embedding 为 $z$。
 
