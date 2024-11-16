@@ -52,6 +52,12 @@ $$
 $$
 然而，这个式子无法数值求解。
 
+> [!note]
+>
+> 为什么要对隐变量 $z$ 展开？
+>
+> 只看 $p(x)$ 没法进一步展开，而对隐变量 $z$ 展开实际上是结合了 $x$ 生成的实际过程，从而使得接下来的所有推导成为可能。
+
 ### 证据下界（Evidence Lower Bound,ELBO）
 
 ::: details expand to see preliminaries
@@ -72,7 +78,7 @@ $$
 \begin{equation}
 \begin{aligned}
 \ell(\theta;x) &=  \ln  p_{\theta}(x)\\
-     &=  \ln \int_{z} p_{\theta}(x,z)\\
+     &=  \ln \int_{z} p_{\theta}(x,z)\ \ \ \text{对隐变量展开}\\
     &=  \ln \int_{z} q_{\phi}(z) \frac{p_{\theta}(x,z)}{q_{\phi}(z)}\\
     &=  \ln\mathbb{E}_{q_{\phi}(z) } \left [ \frac{p_{\theta}(x,z)}{q_{\phi}(z)} \right ]\\
     & \ge  \mathbb{E}_{q_{\phi}(z) } \ln\left [ \frac{p_{\theta}(x,z)}{q_{\phi}(z)} \right ]
@@ -244,4 +250,56 @@ $$
 & \propto  - \frac{1}{L} \sum_{l=1}^L \left [ \underbrace{   (x -  \mu_{x}  )^{T}(x -  \mu_{x}  )  }_{\text{均方误差}}  \right  ]
 -  \left [  tr ( \Sigma_z) + \mu_z^T \mu_z − k − \log det(\Sigma_z)  \right ]\\
 & \text{其中，}\\& \mu_{x}=\mu_{\theta}(z^{(l)}) = decoder(z^{(l)})\\& z^{(l)} =  \mu_{z} + \sqrt{\Sigma_{z}}  \odot \epsilon \ \ ,\epsilon \sim \mathcal{N}(0,\textit{I})\\& \mu_z = \mu_{\phi}(x) = encoder(x)_{\mu_z}\\& \Sigma_z =\Sigma_{\phi}(x) = encoder(x)_{\Sigma_z}\end{aligned}\end{align}
+$$
+
+## MHVAE
+
+::: details expand to see details of preliminaries
+
+**条件概率密度**
+
+条件概率密度函数 $p(y|x)$，准确来说应当是 $p_{Y|X}(y|x)$，指的是在 $X = x$ 的条件下  $Y$ 的概率密度函数。可以通过如下公式计算得到：
+$$
+p_{Y|X}(y|x) = \frac{p_{X,Y}(x, y)}{p_X(x)}, \quad p_X(x) > 0
+$$
+另一种常见的写法 $P(Y|X)$，则是指在**事件** $X$ 发生的条件下，**事件** $Y$ 的发生概率。
+
+> 对于理解 $p_{X,Y}(x,y)=p_{Y|X}(y|x) \cdot p_X(x)$ 的一点：对于 $p(x, y)$ 来说，$x, y$ 都是变量；只是在条件变量中，将 $x$ 视作一个参数进行固定。
+
+**联合概率密度**
+
+联合概率密度 $p_{X,Y}(x,y)$ 被解释为 $X=x$ 且 $Y=y$ 时的概率密度。
+
+对于多元联合分布，有：
+$$
+{\displaystyle p_{X_{1},\ldots ,X_{n}}(x_{1},\ldots ,x_{n})=p_{X_{n}|X_{1},\ldots ,X_{n-1}}(x_{n}|x_{1},\ldots ,x_{n-1})p_{X_{1},\ldots ,X_{n-1}}(x_{1},\ldots ,x_{n-1})}
+$$
+:::
+
+![***Figure 2***: Architecture of MHVAE.](/assets/images/work/cv/AEs/MHVAE.png#mdimg =400x)
+
+将 VAE 的过程重复 $T$ 次，无论正向编码还是反向解码，当前时刻步仅与上一时间步相关，就得到了 MHVAE（Markovian Hierarchical Variational Autoencoder）。$q(z_{t}|z_{t-1})$ 表示了单次编码过程，而 $p(z_{t-1}|z_t)$  表示了单次解码过程。由于该过程为马尔可夫过程，因此有：
+$$
+\tag{13}
+{\displaystyle p_{X_{1},\ldots ,X_{n}}(x_{1},\ldots ,x_{n})=p_{X_{n}|X_{n-1}}(x_{n}|x_{n-1})p_{X_{n-1}}(x_{n-1})}
+$$
+由此，可以得出模型的联合概率分布、隐变量 $z_{1:T}$ 的后验概率分布分别如下：
+$$
+\tag{14}
+p(x,z_{1:T}) = p(z_T) p_{\theta}(x|z_1) \prod_{t=2}^T p_{\theta}(z_{t-1}|z_t)
+$$
+
+$$
+\tag{15}
+q_{\phi}(z_{1:T}|x) = q_{\phi}(z_{1}|x) \prod_{t=2}^T q_{\phi}(z_{t}|z_{t-1})
+$$
+
+与 VAE 的 ELBO 推导过程类似，我们可以得出 MHVAE 的 ELBO：
+$$
+\tag{16}
+\begin{align}\begin{aligned} \ln p(x) &= \ln \int p(x,z_{1:T}) d z_{1:T}\\ 
+&= \ln \int \frac{p(x,z_{1:T}) q_{\phi}(z_{1:T}|x) }{  q_{\phi}(z_{1:T}|x) }  d z_{1:T}\\ 
+&= \ln \mathbb{E}_{ q_{\phi}(z_{1:T}|x)} \left [ \frac{ p(x,z_{1:T}) }{  q_{\phi}(z_{1:T}|x) }  \right ]\\&
+\geq \mathbb{E}_{ q_{\phi}(z_{1:T}|x)} \left [  \ln \frac{ p(x,z_{1:T}) }{  q_{\phi}(z_{1:T}|x) }    \right ]
+\end{aligned}\end{align}
 $$
