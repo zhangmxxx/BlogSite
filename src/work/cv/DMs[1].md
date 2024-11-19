@@ -10,12 +10,10 @@ star: true
 sticky: true
 excerpt: <p>常见扩散模型的原理</p>
 ---
-# DMs
-## VDM
-
+# DMs[1] VDM
 ### Overview
 
-![***Figure 1***: Architecture of VDM.](/assets/images/work/cv/DMs/VDM.png#mdimg =600x)
+![***Figure 1***: Architecture of VDM.](/assets/images/work/cv/DMs[1]/VDM.png#mdimg =600x)
 
 VDM 的原理与 MHVAE 非常类似，可以看作是在 MHVAE 的基础上添加了如下 3 个限制条件得到：
 
@@ -97,7 +95,7 @@ $$
 
 - $\mathbb{E}_{q(x_{t-1}, x_{t+1}|x_0)}\left[ D_{\text{KL}}( {q(x_{t}|x_{t-1})}||{p_{\theta}(x_{t}|x_{t+1}))}\right]$：一致项，使得前向过程由 $x_{t-1}$ 生成的 $x_t$ 和逆向过程由 $x_{t+1}$ 生成的 $x_t$ 的尽可能相似。
 
-  ![***Figure 2***: Depiction of consistency term.](/assets/images/work/cv/DMs/consistency.png#mdimg =500x)
+  ![***Figure 2***: Depiction of consistency term.](/assets/images/work/cv/DMs[1]/consistency.png#mdimg =500x)
 
 > 如果对 $\mathbb{E}_{q(x_{1}|x_0)}$ 这种形式的期望的实际含义感到困惑，那么就先看看 AEs 中的相关解释吧。
 
@@ -156,8 +154,8 @@ $$
 }\end{aligned} \\
 &= \begin{aligned}[t]
     \underbrace{\mathbb{E}_{q(x_{1}|x_0)}\left[\ln p_{{\theta}}(x_0|x_1)\right]}_\text{reconstruction term}
-    &- \underbrace{D_{\text{KL}}({q(x_T|x_0)}\mid {p(x_T)})}_\text{prior matching term}\\
-    &- \sum_{t=2}^{T} \underbrace{\mathbb{E}_{q(x_{t}|x_0)}\left[D_{\text{KL}}({q(x_{t-1}|x_t, x_0)}\mid{p_{{\theta}}(x_{t-1}|x_t))}\right]}_\text{denoising matching term}\\
+    &- \underbrace{D_{\text{KL}}({q(x_T|x_0)}|| {p(x_T)})}_\text{prior matching term}\\
+    &- \sum_{t=2}^{T} \underbrace{\mathbb{E}_{q(x_{t}|x_0)}\left[D_{\text{KL}}({q(x_{t-1}|x_t, x_0)}||{p_{{\theta}}(x_{t-1}|x_t))}\right]}_\text{denoising matching term}\\
     \end{aligned}
 \end{align}\end{split}
 $$
@@ -339,6 +337,4 @@ $$
 
 > [!note]
 >
-> 虽然在 (17) 式中，是将模型的解码结果 $\hat{x}_\theta(x_t, t)$ 与 $x_0$ 进行比较，但实际上，模型并不是一步完成编码，这里的 $\hat{x}_\theta(x_t, t)$ 表示的是模型经过 $t$ 步解码后的结果。
-
-todo: DDPM, DDIM, IDDPM, *Three Equivalent Interpretations*
+> 从目标函数中可以发现，模型在每个时间步 $t$ 都在预测原始输入 $x_0$，而推理过程却是使用 $\hat{x}_\theta(x_t, t)$ 来计算 $\mu_\theta$，从而结合 $\Sigma_q(t)$ 计算出 $p_\theta(x_{t-1}|x_t)$，最终随机采样得到 $x_{t-1}$。通过 $T$ 步采样得出最终的输出。直觉上讲，每一步预测的 $\hat{x}_\theta$ 目标按道理是不同的。
