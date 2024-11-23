@@ -1,3 +1,18 @@
+---
+cover: /assets/images/work/cv/AEs/cover.png
+date: 2024-11-23
+category:
+  - article reading
+tag:
+  - Computer Vision
+  - score-based
+star: true
+sticky: true
+excerpt: <p>基于分数的生成模型：NCSN</p>
+---
+
+
+
 # SMLD
 
 $$
