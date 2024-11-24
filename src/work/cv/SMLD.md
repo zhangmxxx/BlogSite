@@ -1,5 +1,5 @@
 ---
-cover: /assets/images/work/cv/AEs/cover.png
+cover: /assets/images/work/cv/SMLD/cover.jpg
 date: 2024-11-23
 category:
   - article reading
@@ -35,7 +35,7 @@ $$
 
 **原论文**：[link][SMLD]
 
-**参考文献**：[link1][DM-derive]、[link2][YangSongBlog]、[link3][ZhangZhenHuBlog]
+**参考博客**：[link1][DM-derive]、[link2][YangSongBlog](封面来源)、[link3][ZhangZhenHuBlog]
 
 ## Score matching with Langevin dynamics
 
