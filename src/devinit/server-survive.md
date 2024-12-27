@@ -58,6 +58,10 @@ excerpt: <p> 坐拥8张A6000，500GB运行内存，却仍然无法顺畅地进�
 
 可以通过 `conda create --prefix=/path/to/your/env` 来自定义 `conda env` 的安装路径。这样就可以逃离拥挤的 `/home` 目录。
 
+#### 修改 conda pkgs 目录
+
+与 pip 类似，conda 在下载包的时候也会使用缓存，默认路径为 `~/miniconda3/pkgs` 。可以通过 `export CONDA_PKGS_DIRS=/path/to/new/cache`  来修改。
+
 #### 修改 pip cache 以及 TMPDIR
 
 修改 conda env 安装路径后，可以发现在安装环境时， `~/miniconda3` 目录大小确实不再增加，但仍然会遇到磁盘空间不足的问题。这就不得不提 pip install 过程中隐式占用的两个目录：

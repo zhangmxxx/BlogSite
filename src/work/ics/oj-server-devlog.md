@@ -121,3 +121,21 @@ gcc-multilib 和 g++-riscv64-linux-gnu 存在冲突，安装其一，apt 会移�
 
 如果是在 find\.py 中就通过 os.path.exists(f'{fname}.result') 筛除掉已评测的提交，在小于1s内即可完成，后续只会遍历未评测的提交。 但如果“在这里先把所有的提交记录都找出来, 后续只对没有对应result文件的提交进行评测”， 即使禁用了 debug 输出，例如 “skipping judged submit”、“Invoke submit [submit_id]” ，仍然会很慢，大约需要 3-5 分钟来遍历已评测的提交。原因是，这些无用的提交会经历一系列预处理，由于庞大的数量，这些操作会很耗时。自然要采用前者。
 
+### Vastly Runtime for the Same Code
+
+在 Lab3 的评测中，发现对于同一份代码，评测得到的加速比差距很大（能达到25%）：
+
+```
+root@0eb1fce04bc5:/shared/shared/ics-env/perftune# ./perftune-64 hard
+n = 9999998
+naive[1609100935.000000], sub[154156502.000000]
+[[all-tests-passed]]
+=[[[-speedup-10.4381-]]]=
+root@0eb1fce04bc5:/shared/shared/ics-env/perftune# ./perftune-64 hard
+n = 9999998
+naive[1358157781.000000], sub[152781548.000000]
+[[all-tests-passed]]
+=[[[-speedup-8.8895-]]]=
+```
+
+首先，这种情况在本地机器上无法复现。其次，通过使用 `rdtscp` 、 `clock_gettime()`  对框架中的 `rdtsc` 进行替换，发现结果皆是如此，并且使用 `time ./perftune-64 hard` 计时，发现时间与现实时间一致。综上所述，问题在于 `naive` 确实运行时间差异很大。同时注意到，运行时间较短的 sub，其时间波动较小。因此，猜测是长时间运行的程序会触发云服务器的资源调度变化，从而导致较大的时间波动，并且这个影响远大于系统的本身调度（按理说时间短的程序，时间波动更大）。
