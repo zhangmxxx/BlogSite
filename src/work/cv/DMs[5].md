@@ -156,4 +156,4 @@ $$
 
 基本是跟着[这篇文章](https://zhuanlan.zhihu.com/p/695718570)读论文的，这里就不复述了。Take away message：将原本的微分方程，在一系列近似的基础上写成确定解的形式，从而摆脱了步长对误差的影响。如图中蓝线所示，步长会放大 $\d \x_t/\d t$ 的误差，而改用 DPM-Solver 之后，误差可以看作是确定解基础上的偏移，与步长无关。
 
-![***Figure 1***: 12.24 组会总结的 DPM-Solver 的重点](/assets/images/work/cv/DMs[5]/DPM.png#mdimg =600x)
+![***Figure 1***: 12.24 组会总结的 DPM-Solver 的重点  =600x](/assets/images/work/cv/DMs[5]/DPM.png#mdimg)

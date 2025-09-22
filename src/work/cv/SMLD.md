@@ -265,7 +265,7 @@ $$
 $$
 推理过程可以看作 $\LD$ 的改良版，文章中称为 "annealed Langevin dynamics"，其实就是在不同的噪声水平上进行相应的 $\LD$。
 
-![***Figure 1***: Annealed Langevin dynamics.](/assets/images/work/cv/SMLD/alg1.png#mdimg =400x)
+![***Figure 1***: Annealed Langevin dynamics.  =400x](/assets/images/work/cv/SMLD/alg1.png#mdimg)
 
 
 

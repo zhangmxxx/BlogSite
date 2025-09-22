@@ -136,9 +136,9 @@ $$
 
 最终，得出训练算法以及推理（采样）算法如下：
 
-![***Figure 1***: Training Algorithm for DDPM.](/assets/images/work/cv/DMs[2]/train.png#mdimg =400x)
+![***Figure 1***: Training Algorithm for DDPM.  =400x](/assets/images/work/cv/DMs[2]/train.png#mdimg)
 
-![***Figure 2***: Sampling Algorithm for DDPM.](/assets/images/work/cv/DMs[2]/sample.png#mdimg =400x)
+![***Figure 2***: Sampling Algorithm for DDPM.  =400x](/assets/images/work/cv/DMs[2]/sample.png#mdimg)
 
 注意到在采样过程的最后一步，模型略去了 $\sigma_t \textbf{z}$ 项。模型 $p_\theta(x_{t-1} | x_t)$ 拟合了真实分布 $q(x_{t-1} | x_t, x_0)$，这是一个条件概率，并不能确定计算出 $x_{t-1}$，而是一个随机采样过程，这体现在 $\sigma_t \textbf{z}$ 项中。然而，这只对 $t \in [2, T]$ 成立（因为这样的做法是从 denoising matching 项中推导出的）。对于 $x_1 \to x_0$ 的过程，我们可以直接从前向过程入手：
 $$

@@ -193,7 +193,7 @@ $$
 
 ### Encode-Decode
 
-![***Figure 1***: Architecture comparison between AE and VAE.](/assets/images/work/cv/AEs/VAE.png#mdimg =600x)
+![***Figure 1***: Architecture comparison between AE and VAE. =600x](/assets/images/work/cv/AEs/VAE.png#mdimg)
 
 在 VAE 中，假设 $Z$ 服从高斯分布，其先验分布为 $p(z) \sim \mathcal{N}(0, I)$；输出 $X$ 同样也服从高斯分布，并且假设其协方差始终为 $I$。
 
@@ -276,7 +276,7 @@ $$
 $$
 :::
 
-![***Figure 2***: Architecture of MHVAE.](/assets/images/work/cv/AEs/MHVAE.png#mdimg =400x)
+![***Figure 2***: Architecture of MHVAE.  =400x](/assets/images/work/cv/AEs/MHVAE.png#mdimg)
 
 将 VAE 的过程重复 $T$ 次，无论正向编码还是反向解码，当前时刻步仅与上一时间步相关，就得到了 MHVAE（Markovian Hierarchical Variational Autoencoder）。$q(z_{t}|z_{t-1})$ 表示了单次编码过程，而 $p(z_{t-1}|z_t)$  表示了单次解码过程。由于该过程为马尔可夫过程，因此有：
 $$

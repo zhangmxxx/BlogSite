@@ -22,13 +22,13 @@ excerpt: <p>论文阅读笔记</p>
 - 训练速度很快，效果好；
 
 ## Model Architecture
-![Transformer Architecture](/assets/images/work/cv/transformer/arch.png#mdimg =400x)
+![Transformer Architecture =400x](/assets/images/work/cv/transformer/arch.png#mdimg)
 
 ### Attention
 
 #### Scaled Dot-Product Attention
 
-![Scaled Dot-Product Attention](/assets/images/work/cv/transformer/scaled-attention.png#mdimg =250x)
+![Scaled Dot-Product Attention  =250x](/assets/images/work/cv/transformer/scaled-attention.png#mdimg)
 
 > In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix $Q$. The keys and values are also packed together into matrices $K$ and $V$ . We compute the matrix of outputs as:
 > $$ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
@@ -39,7 +39,7 @@ excerpt: <p>论文阅读笔记</p>
 
 首先从单个 input 的计算过程看起，这里假设 $a^i \in \mathbb{R}^{d \times 1}$ , $W^q, W^k\in \mathbb{R}^{d_k\times d}$， $W^v \in \mathbb{R}^{d_v\times d}$。
 
-![Computation process for single input (scale, mask and softmax are omitted)](/assets/images/work/cv/transformer/single-input.png#mdimg =500x)
+![Computation process for single input (scale, mask and softmax are omitted)  =500x](/assets/images/work/cv/transformer/single-input.png#mdimg)
 
 $q, k \in \mathbb{R}^{d_k\times 1}$，$v \in \mathbb{R}^{d_v\times 1}$ 都是由 input 经过矩阵运算得到：
 $$
@@ -73,7 +73,7 @@ $$
 $$
 然后，使用 $Q, K, V$ 计算 $O$。
 
-![Element view of matrix computation](/assets/images/work/cv/transformer/matrix.png#mdimg =500x)
+![Element view of matrix computation  =500x](/assets/images/work/cv/transformer/matrix.png#mdimg)
 
 形式化表示如下：
 $$
@@ -88,7 +88,7 @@ $$
 
 #### Multi-Head Attention
 
-![Multi-head Attention](/assets/images/work/cv/transformer/multihead.png#mdimg =300x)
+![Multi-head Attention =300x](/assets/images/work/cv/transformer/multihead.png#mdimg)
 
 > Instead of performing a single attention function with $d_{model}$-dimensional keys, values and queries, we found it beneficial to linearly project the queries, keys and values h times with different, learned linear projections to $d_k$, $d_k$ and $d_v$ dimensions, respectively.
 
@@ -151,7 +151,7 @@ $$
 
 ### Inference
 
-![Inference(AutoRegressive)](/assets/images/work/cv/transformer/inference.png#mdimg =500x)
+![Inference(AutoRegressive) =500x](/assets/images/work/cv/transformer/inference.png#mdimg)
 
 encoder 部分只执行一次：将输入的“机器学习“语音 token 编码为 4 个 $d_{model}$ 的 embedding。
 
@@ -163,7 +163,7 @@ decoder 部分执行若干次：
 
 ###  Train
 
-![Train(Teacher forcing)](/assets/images/work/cv/transformer/train.png#mdimg =500x)
+![Train(Teacher forcing) =500x](/assets/images/work/cv/transformer/train.png#mdimg)
 
 与 inference 的区别在于，输入 embedding 不是上一轮的输出，而是 ground truth（相当于避免上一轮的结果影响这一轮的预测）。可以一次性计算 loss，只需要在 masked attention 中对每个位置加上不同的 mask 即可。
 

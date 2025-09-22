@@ -31,7 +31,7 @@ excerpt: <p> 论文 FasterCache：Training-Free Video Diffusion Model Accelerati
 
 相邻时间步之间的 feature（attenion score matrix） 较为相似，而 feature 的计算过程较为耗时。因此，考虑在相邻时间步之间复用 feature。
 
-![***Figure 1***: Vanilla cache-based acceleration method.](/assets/images/work/cv/FasterCache/direct.png#mdimg =600x)
+![***Figure 1***: Vanilla cache-based acceleration method.  =600x](/assets/images/work/cv/FasterCache/direct.png#mdimg)
 
 **Cache acceleration 领域的相关文章**
 
@@ -53,7 +53,7 @@ $$
 
 **Vanilla Feature reuse 导致的生成质量下降**：虽然各 attention feature 在不同时间步之间具有很高的相似度，但忽略这些差异会导致生成质量的下降。通过观察不同时间步之间 feature 的差值，可以发现差值所对应的区域正是最终图片质量下降的区域。
 
-![***Figure 2***: Visual quality degradation caused by Vanilla Feature Reuse (left) and feature differences between adjacent timesteps (right).](/assets/images/work/cv/FasterCache/feature-diff.png#mdimg =600x)
+![***Figure 2***: Visual quality degradation caused by Vanilla Feature Reuse (left) and feature differences between adjacent timesteps (right).  =600x](/assets/images/work/cv/FasterCache/feature-diff.png#mdimg)
 
 **CFG 中 feature 的冗余**： 通过图表可以发现，$\text{cond}(t)$ 与 $\text{uncond}(t)$ 的差异，要小于 $\text{cond}(t)$ 与 $\text{cond}(t-1)$ 、$\text{uncond}(t)$ 与 $\text{uncond}(t-1)$   的差异。如果简单的复用 $\text{uncond}(t-1)$，则：
 $$
@@ -64,7 +64,7 @@ $$
 $$
 在这种情况下，复用带来的误差超过了 guidance 项，导致 guidance 失效。而 $\text{cond}(t)$ 与 $\text{uncond}(t)$ 之间的高相似度，即为冗余。
 
-![***Figure 3***: The Feature MSE Curve between CFG Outputs.](/assets/images/work/cv/FasterCache/CFG.png#mdimg =300x)
+![***Figure 3***: The Feature MSE Curve between CFG Outputs.  =300x](/assets/images/work/cv/FasterCache/CFG.png#mdimg)
 
 ### Dynamic Feature Reuse Strategy
 
@@ -76,7 +76,7 @@ $$
 
 ### CFG-Cache
 
-![***Figure 4***: MSE of different frequency features bias.](/assets/images/work/cv/FasterCache/fft.png#mdimg =400x)
+![***Figure 4***: MSE of different frequency features bias.  =400x](/assets/images/work/cv/FasterCache/fft.png#mdimg)
 
 考虑到 $\text{cond}(t)$ 与 $\text{uncond}(t)$ 的相似性，原文首先尝试了直接使用 cond 来代替 uncond，相当于不使用 CFG，自然结果不是很好。随后，原文尝试对 $\text{cond}(t)$ 与 $\text{uncond}(t)$ 在频率上进行拆分，发现在生成过程的前期，二者的区别主要在低频段；而在生成过程的后期，二者的区别移动到了高频段。基于该观察，考虑将高低频段分开进行复用：
 

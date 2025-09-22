@@ -170,7 +170,7 @@ void CallbackHelper() {
 
 如图所示，nplayer 的音频可视化左半边正常，但右半边异常。查看 nplayer 源码可以发现，是由于 `visualize(int16_t *stream, int samples)` 时，stream 中只有 samples / 2 个样本。
 
-![***Figure 1***: Erroneous nplayer audio visualization.](/assets/images/work/ics/PA3/nplayer-error.png#mdimg =400x)
+![***Figure 1***: Erroneous nplayer audio visualization. =400x](/assets/images/work/ics/PA3/nplayer-error.png#mdimg)
 
 记初始化得到的音频信息 `SDL_AudioSpec` 为 spec，nplayer 每次调用 visulize 的参数如下：
 

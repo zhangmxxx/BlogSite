@@ -10,8 +10,8 @@ export default hopeTheme({
     name: "MallocSimenons",
     url: "https://zhangmxxx.github.io/BlogSite/intro.html",
   },
-
-  iconAssets: "fontawesome-with-brands",
+  // after vp-update@2.0.0-rc.15 (25.09.21), move to plugins.icon.assets
+  // iconAssets: "fontawesome-with-brands",
 
   logo: "/logo.png",
 
@@ -82,12 +82,57 @@ export default hopeTheme({
     editLink: "Edit this page on GitHub",
   },
 
+  // after vp-update@2.0.0-rc.15 (25.09.21), move plugins.mdEnhance.xxx to markdown.xxx
+  markdown: {
+    gfm: true,
+    tasklist: true,
+    component: true,
+    vPre: true,
+    include: true,
+    align: true,
+    attrs: true,
+    mark: true,
+    spoiler: true,
+    sup: true,
+    sub: true,
+    stylize: [
+        {
+          matcher: "Recommended",
+          replacer: ({ tag }) => {
+            if (tag === "em")
+              return {
+                tag: "Badge",
+                attrs: { type: "tip" },
+                content: "Recommended",
+              };
+          },
+        },
+      ],
+    plantuml: true,
+    demo: true,
+    alert: true,
+    hint: true,
+    math: true,
+    tabs: true,
+    codeTabs: true,
+    figure: true,
+    // 启用图片懒加载
+    imgLazyload: true,
+    // 启用图片标记
+    imgMark: true,
+    // 启用图片大小
+    imgSize: true,
+  },
+
   // enable it to preview all changes in time
   // hotReload: true,
-
+  
   plugins: {
     blog: true,
 
+    icon: {
+      assets: "fontawesome-with-brands"
+    },
     // Install @waline/client before enabling it
     // Note: This is for testing ONLY!
     // You MUST generate and use your own comment service in production.
@@ -101,54 +146,54 @@ export default hopeTheme({
     },
 
     // These features are enabled for demo, only preserve features you need here
-    markdownImage: {
-      figure: true,
-      lazyload: true,
-      size: true,
-    },
+    // markdownImage: {
+    //   figure: true,
+    //   lazyload: true,
+    //   size: true,
+    // },
 
-    markdownMath: {
-      // // install katex before enabling it
-      // type: "katex",
-      // or install mathjax-full before enabling it
-      type: "mathjax",
-    },
+    // markdownMath: {
+    //   // // install katex before enabling it
+    //   // type: "katex",
+    //   // or install mathjax-full before enabling it
+    //   type: "mathjax",
+    // },
 
     // This features is enabled for demo, only preserve if you need it
-    markdownTab: true,
+    // markdownTab: true,
 
-    markdownHint: {
-      // 启用 GFM 警告
-      alert: true,
-    },
+    // markdownHint: {
+    //   // 启用 GFM 警告
+    //   alert: true,
+    // },
 
     // These features are enabled for demo, only preserve features you need here
-    mdEnhance: {
-      align: true,
-      attrs: true,
-      component: true,
-      demo: true,
-      include: true,
-      mark: true,
-      plantuml: true,
-      spoiler: true,
-      stylize: [
-        {
-          matcher: "Recommended",
-          replacer: ({ tag }) => {
-            if (tag === "em")
-              return {
-                tag: "Badge",
-                attrs: { type: "tip" },
-                content: "Recommended",
-              };
-          },
-        },
-      ],
-      sub: true,
-      sup: true,
-      tasklist: true,
-      vPre: true,
+    // mdEnhance: {
+    //   align: true,
+    //   attrs: true,
+    //   component: true,
+    //   demo: true,
+    //   include: true,
+    //   mark: true,
+    //   plantuml: true,
+    //   spoiler: true,
+    //   stylize: [
+    //     {
+    //       matcher: "Recommended",
+    //       replacer: ({ tag }) => {
+    //         if (tag === "em")
+    //           return {
+    //             tag: "Badge",
+    //             attrs: { type: "tip" },
+    //             content: "Recommended",
+    //           };
+    //       },
+    //     },
+    //   ],
+    //   sub: true,
+    //   sup: true,
+    //   tasklist: true,
+    //   vPre: true,
 
       // install chart.js before enabling it
       // chart: true,
@@ -162,7 +207,7 @@ export default hopeTheme({
       // flowchart: true,
 
       // gfm requires mathjax-full to provide tex support
-      gfm: true,
+      // gfm: true,
 
       // install mermaid before enabling it
       // mermaid: true,
@@ -176,7 +221,7 @@ export default hopeTheme({
 
       // install sandpack-vue3 before enabling it
       // sandpack: true,
-    },
+    // },
 
     // install @vuepress/plugin-pwa and uncomment these if you want a PWA
     // pwa: {

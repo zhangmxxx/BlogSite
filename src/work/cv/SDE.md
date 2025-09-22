@@ -98,7 +98,7 @@ $$
 
 对于推导中暂时有两步不明白：
 
-![原文推导过程.](/assets/images/work/cv/SDE/doubt.png#mdimg =600x)
+![原文推导过程.  =600x](/assets/images/work/cv/SDE/doubt.png#mdimg)
 
 1. 对于 (24) 式，有 ：
    $$
@@ -169,7 +169,7 @@ $$
 $$
 相比原始的反向 SDE (2)，直观上是将 $\d\bar{\w}$ 给吸收进了 $\tilde{\f}(\x, t)$。效果上讲，最直接的，*probability flow* ODE 可以加快采样速度，文章提到可以减少超过 90% 的计算。
 
-![***Table 1***. 不同 solver，sampler 的生成结果. PC1000 指的是预测和修正分别 1000 步.](/assets/images/work/cv/SDE/result.png#mdimg =600x)
+![***Table 1***. 不同 solver，sampler 的生成结果. PC1000 指的是预测和修正分别 1000 步. =600x](/assets/images/work/cv/SDE/result.png#mdimg)
 
 #### Predictor-Corrector Samplers
 
@@ -177,7 +177,7 @@ $$
 
 在 PC 采样 中，predictor 可以是任何离散化的反向 SDE，而 corrector 可以是任何基于分数的 MCMC 方法。以 reverse diffusion SDE 和退火朗之万动力采样为例，可以针对 VE SDE 和 VP SDE 分别得出如下算法：
 
-![***Figure 1***. PC sampling for VE/VP SDE.](/assets/images/work/cv/SDE/alg-PC.png#mdimg =600x)
+![***Figure 1***. PC sampling for VE/VP SDE.  =600x](/assets/images/work/cv/SDE/alg-PC.png#mdimg)
 
 为什么需要 PC 采样？注意到，对于逆向 SDE 的离散化难免会有误差，在进行一步预测后，通过多步朗之万动力采样，可以一定程度上修正该误差。引入的修正步骤会增加计算开销，而 ODE 加上修正步骤，还能维持多少的计算量削减？
 

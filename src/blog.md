@@ -38,7 +38,7 @@ Navbar 是全局不变的。因此，相较于 Sidebar，其核心功能应该�
 ## Image Style
 对于 markdown 内的插图，额外添加阴影和圆角样式。由于在主题文档中未找到相关内容，所以通过在 index.scss 中覆盖相关样式实现。注意到这里并不能直接对 img 进行样式覆盖，因为这会影响到主页的图标。虽然主页图标支持样式自定义，但无法从已有的样式中删除一部分。因此，需要在插入图片时，附带额外的类别信息，以在 css 文件中区分。可以通过在 URL fragment 中插入类别信息（[Explanation](https://dzone.com/articles/how-to-style-images-with-markdown)）：
 ```markdown
-![Alt](image.jpg#class-name) 
+![Alt =200x](image.jpg#class-name) 
 ```
 并且在 index.scss 对属于 class-name 类别的 image 进行单独样式设置：
 ```scss

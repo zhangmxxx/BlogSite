@@ -24,5 +24,5 @@ excerpt: <p>论文 Simplifying, Stabilizing and Scaling Continuous-Time Consiste
 
 ## Methods
 
-![***Figure 1***: High spatial-compression autoencoders are more difficult to optimize. Even with the same latent shape and stronger learning capacity, it still cannot match the f8 autoencoder’s rFID](/assets/images/work/cv/DC-AE/ablation.png#mdimg =400x)
+![***Figure 1***: High spatial-compression autoencoders are more difficult to optimize. Even with the same latent shape and stronger learning capacity, it still cannot match the f8 autoencoder’s rFID  =400x](/assets/images/work/cv/DC-AE/ablation.png#mdimg)
 

@@ -13,7 +13,7 @@ excerpt: <p>变分扩散模型的原理</p>
 # DMs[1] DPM
 ### Overview
 
-![***Figure 1***: Architecture of VDM.](/assets/images/work/cv/DMs[1]/VDM.png#mdimg =600x)
+![***Figure 1***: Architecture of VDM. =600x](/assets/images/work/cv/DMs[1]/VDM.png#mdimg)
 
 VDM 的原理与 [MHVAE](./AEs.md) 非常类似，可以看作是在 MHVAE 的基础上添加了如下 3 个限制条件得到：
 
@@ -99,7 +99,7 @@ $$
 
 - $\mathbb{E}_{q(x_{t-1}, x_{t+1}|x_0)}\left[ D_{\text{KL}}( {q(x_{t}|x_{t-1})}||{p_{\theta}(x_{t}|x_{t+1}))}\right]$：一致项，使得前向过程由 $x_{t-1}$ 生成的 $x_t$ 和逆向过程由 $x_{t+1}$ 生成的 $x_t$ 的尽可能相似。
 
-  ![***Figure 2***: Depiction of consistency term.](/assets/images/work/cv/DMs[1]/consistency.png#mdimg =500x)
+  ![***Figure 2***: Depiction of consistency term.  =500x](/assets/images/work/cv/DMs[1]/consistency.png#mdimg)
 
 > 如果对 $\mathbb{E}_{q(x_{1}|x_0)}$ 这种形式的期望的实际含义感到困惑，那么就先看看 AEs 中的相关解释吧。实际上，$\mathbb{E}_{x_1\sim q(x_1\mid x_0)}$ 可以通过随机采样来模拟。
 
