@@ -5,4 +5,4 @@ src/.vuepress/.temp/
 src/.vuepress/dist/
 src/prelease
 src/.DS_Store
-*/.DS_Store
+.DS_Store
